@@ -19,10 +19,6 @@ export default class Form extends React.Component {
                     secureTextEntry={true}
                     placeholderTextColor = '#ffffff'
                 />
-                <TouchableOpacity style={styles.button}>
-                    <Text style = {styles.buttonText}> Đăng nhập </Text>
-
-                </TouchableOpacity>
             </View>
         )
     }
@@ -38,22 +34,9 @@ const styles = StyleSheet.create({
         width:300,
         height:50,
         backgroundColor: 'rgba(255, 255, 255, 0.3)',
-        borderRadius: 20,
+        borderRadius: 22,
         paddingHorizontal: 16,
-        marginVertical: 10
-    },
-    button:{
-        width:300,
-        height:50,
-        backgroundColor: '#1c313a',
-        borderRadius: 20,
-        marginVertical: 16,
-        paddingVertical: 12
-    },
-    buttonText:{
-        fontSize: 16,
-        fontWeight: '500',
         color: '#ffffff',
-        textAlign:'center'
+        marginVertical: 10
     }
   });

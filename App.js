@@ -1,10 +1,17 @@
 import React from 'react';
 import { StyleSheet, Text, View, StatusBar, KeyboardAvoidingView } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+import { createStackNavigator } from 'react-navigation';
 
-import Login from './src/pages/login';
+import SignIn from './src/pages/SignIn';
+import SignUp from './src/pages/SignUp';
+import HomeScreen from './src/pages/HomeScreen';
+import SigninForm from './src/components/SigninForm';
+import SignupForm from './src/components/SignupForm';
+
 
 export default class App extends React.Component {
+
   render() {
     return (
         <View style={styles.container}>
@@ -12,11 +19,17 @@ export default class App extends React.Component {
             backgroundColor="#1c313a"
             barStyle="light-content"
           />
-          <Login/>
+          <AppStackNavigator screenProps = {{navigation: this.props.navigation}}/>
         </View>
     );
   }
 }
+
+const AppStackNavigator = createStackNavigator({
+  SignIn: {screen: SignIn},
+  SignUp: {screen: SignUp} ,
+  HomeScreen: {screen: HomeScreen}
+});
 
 const styles = StyleSheet.create({
   container: {
