@@ -16,7 +16,7 @@ export default class App extends React.Component {
     return (
         <View style={styles.container}>
           <StatusBar
-            backgroundColor="#1c313a"
+            backgroundColor="#ffffff"
             barStyle="light-content"
           />
           <AppStackNavigator screenProps = {{navigation: this.props.navigation}}/>
@@ -25,10 +25,15 @@ export default class App extends React.Component {
   }
 }
 
+//Stack cho SignIn, SignUp và HomeScreen
 const AppStackNavigator = createStackNavigator({
   SignIn: {screen: SignIn},
   SignUp: {screen: SignUp} ,
-  HomeScreen: {screen: HomeScreen}
+  HomeScreen: {
+    screen: HomeScreen,
+    navigationOptions:{
+      header:null
+}}
 });
 
 const styles = StyleSheet.create({
