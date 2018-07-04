@@ -1,14 +1,12 @@
 import React from 'react';
-import { StyleSheet, Text, View, TextInput, TouchableOpacity, ScrollView,KeyboardAvoidingView  } from 'react-native';
+import { StyleSheet, Text, View, TextInput, TouchableOpacity, ScrollView } from 'react-native';
 import { FormLabel, FormInput, FormValidationMessage } from 'react-native-elements'
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
 
 export default class SignupForm extends React.Component {
     render(){
         return(
-            <View style = {{height: 350}}>
-            <KeyboardAwareScrollView scrollEnabled showsVerticalScrollIndicator = {false}>
+            <ScrollView style = {styles.container} showsVerticalScrollIndicator = {false}>
                 <TextInput 
                     style = {styles.inputBox} 
                     underlineColorAndroid = 'rgba(0, 0, 0, 0)'
@@ -21,7 +19,6 @@ export default class SignupForm extends React.Component {
                     underlineColorAndroid = 'rgba(0, 0, 0, 0)'
                     placeholder = "Mật khẩu"
                     secureTextEntry={true}
-                    selectionColor="#fff"
                     placeholderTextColor = '#ffffff'
                 />
                 <TextInput 
@@ -29,7 +26,6 @@ export default class SignupForm extends React.Component {
                     underlineColorAndroid = 'rgba(0, 0, 0, 0)'
                     placeholder = "Nhập lại mật khẩu"
                     secureTextEntry={true}
-                    selectionColor="#fff"
                     placeholderTextColor = '#ffffff'
                 />
                 <TextInput 
@@ -48,22 +44,14 @@ export default class SignupForm extends React.Component {
                     placeholderTextColor = '#ffffff'
                     keyboardType = "phone-pad"
                 />
-            </KeyboardAwareScrollView>
-            <View style={styles.loginButtonSection}>
-                <TouchableOpacity style={styles.button}>
-                        <Text style = {styles.buttonText}> Đăng ký </Text>
-                </TouchableOpacity>
-            </View>
-            </View>
-            
+            </ScrollView>
         )
     }
 }
 
 const styles = StyleSheet.create({
     container: {
-      height: 500,
-      flexDirection: "column"
+      flexGrow: 1,
     },
     inputBox:{
         width:300,
@@ -74,27 +62,18 @@ const styles = StyleSheet.create({
         color: '#ffffff',
         marginVertical: 10
     },
-    inputText:{
-        color: '#ffffff',
-    },
     button:{
         width:300,
         height:50,
         backgroundColor: '#1c313a',
         borderRadius: 22,
-        paddingVertical: 13,
+        marginVertical: 10,
+        paddingVertical: 13
     },
     buttonText:{
         fontSize: 16,
         fontWeight: '500',
         color: '#ffffff',
         textAlign:'center'
-    },
-    loginButtonSection:{
-        flexGrow:1,
-        width: '100%',
-        height: '30%',
-        justifyContent: 'center',
-        alignItems: 'center'
     }
   });

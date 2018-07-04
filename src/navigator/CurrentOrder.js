@@ -3,59 +3,63 @@ import { StyleSheet, Text, View, StatusBar, FlatList } from 'react-native';
 import { List, ListItem, SearchBar, Header } from "react-native-elements";
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
+import axios from 'axios';
+import {GetRequest} from '../helper/request_helper';
+
+
 export default class CurrentOrder extends React.Component {
 
-    
     constructor(props) {
         super(props);
-    
         this.state = {
-          loading: false,
-          data: [],
-          page: 1,
-          seed: 1,
-          error: null,
-          refreshing: false,
+            loading: false,
+            access_token : this.props.screenProps.access_token,
+            data: null,
+            user_number: null,
+            dataDisplay: null
         };
+
+
     }  
 
     componentDidMount() {
         this.makeRemoteRequest();
     }
     
-    makeRemoteRequest = () => {
-    const { page, seed } = this.state;
-    const url = `https://randomuser.me/api/?seed=${seed}&page=${page}&results=20`;
-    this.setState({ loading: true });
-    fetch(url)
-        .then(res => res.json())
-        .then(res => {
-        this.setState({
-            data: page === 1 ? res.results : [...this.state.data, ...res.results],
-            error: res.error || null,
-            loading: false,
-            refreshing: false
-        });
-        })
-        .catch(error => {
-        this.setState({ error, loading: false });
-        });
-    };
 
-    renderHeader = () => {
-        return <Header centerComponent={{ text: 'Lệnh đang chạy', style: { color: '#fff' } }}
-        outerContainerStyles={{ backgroundColor: '#3D6DCC' }}
-        innerContainerStyles={{ justifyContent: 'space-around' }} />;
-      };
+    makeRemoteRequest = () => {
+        var dataDisplay = [];
+        this.setState({ loading: true });
+        axios.get(`https://tinhieu-backend.herokuapp.com/notification`, 
+        {
+            headers: {
+                "Authorization" : "Bearer " + this.state.access_token
+            }
+        })
+        .then(res => {
+            const data = res.data;
+            this.setState({data : data});
+            console.log(data.notifications);
+            data.notifications.forEach(notification => {
+                if(notification.status == 0) {
+                    dataDisplay.push(notification);
+                }
+            });
+            this.setState({dataDisplay : dataDisplay});
+        }).catch(error =>{
+            console.log(error.response);
+            console.log(this.access_token);
+        })
+    };
+    
 
     renderSeparator = () => {
         return (
           <View
             style={{
               height: 1,
-              width: "86%",
+              width: "100%",
               backgroundColor: "#CED0CE",
-              marginLeft: "14%"
             }}
           />
         );
@@ -65,24 +69,30 @@ export default class CurrentOrder extends React.Component {
         return (
             <List containerStyle={{ borderTopWidth: 0, borderBottomWidth: 0 }}>
             <Header 
-                centerComponent={{ text: 'Lệnh Đang Chạy', style: { color: '#fff', fontSize: 16, fontWeight: 'bold' } }}
+                centerComponent={{ text: 'Tín Hiệu Mới', style: { color: '#fff', fontSize: 16, fontWeight: 'bold' } }}
                 outerContainerStyles={{ backgroundColor: '#1c313a', height: 50 }}
                 innerContainerStyles={{ justifyContent: 'space-around' }}
             />
                 <FlatList
-                    backgroundColor = '#455a64'
-                    data={this.state.data}
-                    keyExtractor={item => item.email}
+                    backgroundColor = 'black'
+                    data={this.state.dataDisplay}
+                    keyExtractor={item => item.id}
                     ItemSeparatorComponent={this.renderSeparator}
+                    style={{  transform: [{ scaleY: -1 }] }}
+                    inverted
                     renderItem={({ item }) => (
                         <ListItem
-                          roundAvatar
-                          title={`${item.name.first} ${item.name.last}`}
-                          subtitle={item.email}
-                          avatar={{ uri: item.picture.thumbnail }}
+                          title={`${item.currency_code}`}
+                          titleStyle = {styles.textStyle}
+                          subtitle={item.buy_or_sell == true ? "Mua - " + `${item.price}` : "Bán - " + `${item.price}`}
+                          subtitleStyle = {styles.subtitleStyle}
+                          rightTitle = {"Lệnh đang chạy"}
+                          rightTitleStyle = {styles.rightTitleStyle}
+                          rightSubtitle = {"Vui lòng chờ"}
                           containerStyle={{ borderBottomWidth: 0 }}
                           
-                    />
+                          
+                        />
                     
                     )}
                 />
@@ -95,6 +105,20 @@ export default class CurrentOrder extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#455a64',
+    backgroundColor: 'black'
   },
+  textStyle:{
+    fontSize: 19,
+    fontWeight: 'bold',
+    color: "#fff"
+  },
+  rightTitleStyle:{
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: "#fff"
+  },
+  subtitleStyle:{
+      fontSize: 17,
+      fontWeight: 'bold',
+  }
 });

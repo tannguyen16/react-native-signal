@@ -4,12 +4,16 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import { createStackNavigator, createBottomTabNavigator } from 'react-navigation';
 import { Ionicons } from 'react-native-vector-icons';
 
-import CurrentOrder from '../navigator/CurrentOrder';
-import OldOrder from '../navigator/OldOrder';
-import Account from '../navigator/Account';
+import AdminCurrentOrder from '../navigator/AdminCurrentOrder';
+import AdminOldOrder from '../navigator/AdminOldOrder';
+import AdminAccount from '../navigator/AdminAccount';
+import AdminCurrentOrderStack from '../pages/AdminCurrentOrderStack';
+import AdminOldOrderStack from '../pages/AdminOldOrderStack';
+import AdminAccountStackNavigator from '../pages/AdminAccountStackNavigator';
 
 
-export default class Navigator extends React.Component {
+
+export default class AdminNavigator extends React.Component {
 
     constructor(props) {
         super(props);
@@ -22,23 +26,30 @@ export default class Navigator extends React.Component {
 
     render() {
         return (
-            <HomeScreenTabNavigator screenProps = {{access_token : this.state.access_token}}/>
+        <View style={styles.container}>
+            <StatusBar
+                backgroundColor="#1c313a"
+                barStyle="light-content"
+            />
+            <AdminHomeScreenTabNavigator screenProps = {{access_token : this.state.access_token}} />
+         </View>
         );
     }
 }
 
-const HomeScreenTabNavigator = createBottomTabNavigator({
-    CurrentOrder: {
-        screen: CurrentOrder,
+const AdminHomeScreenTabNavigator = createBottomTabNavigator({
+    AdminCurrentOrderStack: {
+        screen: AdminCurrentOrderStack,
         navigationOptions:{
             tabBarLabel:'Tín hiệu mới',
             tabBarIcon: () => (
                 <Ionicons name="md-trending-up" size = {24} color = {'white'}/>
-            )
+            ),
+            header: null
         }
     },
-    OldOrder: {
-        screen: OldOrder,
+    AdminOldOrderStack: {
+        screen: AdminOldOrderStack,
         navigationOptions:{
             tabBarLabel:'Tín hiệu cũ',
             tabBarIcon: () => (
@@ -46,15 +57,15 @@ const HomeScreenTabNavigator = createBottomTabNavigator({
             )
         }
     },
-    Account: {
-        screen: Account,
+    AdminAccountStackNavigator: {
+        screen: AdminAccountStackNavigator,
         navigationOptions:{
-            headerTitle: "Home",
-            tabBarLabel:'Tài khoản',
+            tabBarLabel:'Tài khoản Admin',
             tabBarIcon: () => (
                 <Ionicons name="md-contact" size = {24} color = {'white'}/>
-            )
-        }
+            ),
+            header: null
+        },
     }
 },  {
     tabBarOptions: {
@@ -65,7 +76,7 @@ const HomeScreenTabNavigator = createBottomTabNavigator({
           showIcon: true,
         
     },
-    initialRouteName: 'CurrentOrder'
+    backgroundColor: '#455a64',
     /* The header config from HomeScreen is now here */
   });
 
