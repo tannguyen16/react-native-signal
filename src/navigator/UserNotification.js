@@ -8,7 +8,7 @@ import axios from 'axios';
 import {GetRequest} from '../helper/request_helper';
 
 
-export default class AdminOldOrder extends React.Component {
+export default class UserNotification extends React.Component {
 
     constructor(props) {
         super(props);
@@ -17,22 +17,12 @@ export default class AdminOldOrder extends React.Component {
             access_token : this.props.screenProps.access_token,
             data: null,
             user_number: null,
-            dataDisplay: null
+            dataDisplay: null,
+            refresh: null
         };
 
         this._refresh = this._refresh.bind(this);
-
     }  
-
-    _refresh() {
-        return new Promise((resolve) => {
-            this.makeRemoteRequest();
-            setTimeout(()=>{resolve()}, 1000)
-          
-        });
-    }
-
-
 
     componentDidMount() {
         this.makeRemoteRequest();
@@ -42,7 +32,7 @@ export default class AdminOldOrder extends React.Component {
     makeRemoteRequest = () => {
         var dataDisplay = [];
         this.setState({ loading: true });
-        axios.get(`https://tinhieu-backend.herokuapp.com/notification`, 
+        axios.get(`https://tinhieu-backend.herokuapp.com/admin/get_alltext`, 
         {
             headers: {
                 "Authorization" : "Bearer " + this.state.access_token
@@ -51,17 +41,24 @@ export default class AdminOldOrder extends React.Component {
         .then(res => {
             const data = res.data;
             this.setState({data : data});
-            data.notifications.forEach(notification => {
-                if(notification.status != 0) {
-                    dataDisplay.push(notification);
-                }
+            data.texts.forEach(text => {
+                dataDisplay.push(text);
             });
             this.setState({dataDisplay : dataDisplay});
         }).catch(error =>{
             console.log(error.response);
+
         })
     };
     
+
+    _refresh() {
+        return new Promise((resolve) => {
+            this.makeRemoteRequest();
+            setTimeout(()=>{resolve()}, 1000)
+          
+        });
+    }
 
     renderSeparator = () => {
         return (
@@ -77,12 +74,12 @@ export default class AdminOldOrder extends React.Component {
     
     render() {
         return (
-            <View style = {styles.container} >
+            <View style = {styles.container}>
             <Header 
-                outerContainerStyles={{ backgroundColor: 'black', height: StatusBar.currentHeight - 5 }}
+            outerContainerStyles={{ backgroundColor: 'black', height: StatusBar.currentHeight - 5 }}
             />
             <Header 
-                centerComponent={{ text: 'Tín Hiệu Cũ', style: { color: '#fff', fontSize: 16, fontWeight: 'bold' } }}
+                centerComponent={{ text: 'Thông Báo', style: { color: '#fff', fontSize: 16, fontWeight: 'bold' } }}
                 outerContainerStyles={{ backgroundColor: '#5F5395', height: 50, marginTop: StatusBar.height }}
 
             />
@@ -94,17 +91,11 @@ export default class AdminOldOrder extends React.Component {
                         ItemSeparatorComponent={this.renderSeparator}
                         inverted
                         renderItem={({ item }) => (
-                            <ListItem 
-                            title={`${item.currency_code}`}
-                            titleStyle = {styles.textStyle}
-                            subtitle={item.buy_or_sell == 0 ? "Mua - " + `${item.price}` : "Bán - " + `${item.price}`}
-                            subtitleStyle = {styles.subtitleStyle}
-                            rightTitle = {item.status == 1? "TAKE PROFIT" : "STOP LOSS"}
-                            rightTitleStyle = {item.status == 1 ? styles.successTitleStyle : styles.failTitleStyle }
-                            containerStyle={{ borderBottomWidth: 0 }}
-                            onPress={()=> this.props.navigation.navigate('OldOrderLook', { item: item, access_token : this.state.access_token })}
-                            />
-                        
+                            <Text
+                                style = {styles.textStyle}
+                            >
+                            {item.content}
+                            </Text>
                         )}
                     />
             </PTRView>
@@ -116,23 +107,21 @@ export default class AdminOldOrder extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: '#4C9BCF',
+        flex : 1,
+        backgroundColor: '#4C9BCF'
   },
   textStyle:{
-    fontSize: 19,
+    height: 50,
+    marginVertical: 10,
+    marginHorizontal: 12,
+    fontSize: 15,
     fontWeight: 'bold',
     color: "#fff"
   },
-  successTitleStyle:{
+  rightTitleStyle:{
     fontSize: 16,
     fontWeight: 'bold',
-    color: "green"
-  },
-  failTitleStyle:{
-    fontSize: 16,
-    fontWeight: 'bold',
-    color: "red"
+    color: "#fff"
   },
   subtitleStyle:{
       fontSize: 17,

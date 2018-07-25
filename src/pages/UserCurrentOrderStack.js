@@ -4,13 +4,12 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import { createStackNavigator, createBottomTabNavigator } from 'react-navigation';
 import { Ionicons } from 'react-native-vector-icons';
 
-import AdminCurrentOrder from '../navigator/AdminCurrentOrder';
-import AdminCurrentOrderLook from '../navigator/AdminCurrentOrderLook';
-import AdminOldOrder from '../navigator/AdminOldOrder';
-import AdminAccount from '../navigator/AdminAccount';
-import EditOrder from '../navigator/EditOrder';
+import CurrentOrder from '../navigator/CurrentOrder';
+import CurrentOrderLook from '../navigator/CurrentOrderLook';
+import OldOrder from '../navigator/OldOrder';
+import Account from '../navigator/Account';
 
-import AdminNavigator from '../pages/AdminNavigator';
+import Navigator from '../pages/Navigator';
 
 export default class HomeScreen extends React.Component {
 
@@ -39,17 +38,14 @@ export default class HomeScreen extends React.Component {
 }
 
 const CurrentOrderStackNavigator = createStackNavigator({
-    AdminCurrentOrder: {screen: AdminCurrentOrder,
+    CurrentOrder: {screen: CurrentOrder,
         navigationOptions:{
             header: null
         }         
     },
-    AdminCurrentOrderLook: {screen: AdminCurrentOrderLook,
+    CurrentOrderLook: {screen: CurrentOrderLook,
         navigationOptions:{
         }         
-    },
-    EditOrder: {
-      screen: EditOrder
     }
   });
 

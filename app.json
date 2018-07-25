@@ -1,5 +1,28 @@
 {
   "expo": {
-    "sdkVersion": "27.0.0"
+    "name": "Tín Hiệu",
+    "icon": "./src/images/logo2.png",
+    "version": "1.0.0",
+    "slug": "tinhieu",
+    "sdkVersion": "27.0.0",
+    "ios": {
+      "bundleIdentifier": "com.tinhieu.tinhieu",
+      "supportsTablet": true
+    },
+    "notification": {
+      "icon": "./src/images/logo2.png"
+    },
+    "loading": {
+      "backgroundColor": "#FFFFFF",
+      "icon": "./src/images/logo2.png"
+    },
+    "splash": {
+      "image": "./src/images/logo2.png",
+      "backgroundColor": "#ffffff"
+    },
+    "android": {
+      "package": "com.tinhieu.tinhieu"
+    }
+    
   }
 }

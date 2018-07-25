@@ -7,71 +7,101 @@ import { Ionicons } from 'react-native-vector-icons';
 import CurrentOrder from '../navigator/CurrentOrder';
 import OldOrder from '../navigator/OldOrder';
 import Account from '../navigator/Account';
+import UserCurrentOrderStack from '../pages/UserCurrentOrderStack';
+import UserNotification from '../navigator/UserNotification';
+import UserOldOrderStack from '../pages/UserOldOrderStack';
+import UserAccountStackNavigator from '../pages/UserAccountStackNavigator';
 
 
-export default class Navigator extends React.Component {
+
+export default class AdminNavigator extends React.Component {
 
     constructor(props) {
         super(props);
         this.state = {
+            navigation : this.props.navigation,
             loading: false,
             user_number: null,
             access_token: this.props.access_token
         };
+
+        this.onLogOut = this.onLogOut.bind(this);
     }  
+
+    onLogOut(){
+        this.props.onLogOut();
+    }
 
     render() {
         return (
-            <HomeScreenTabNavigator screenProps = {{access_token : this.state.access_token}}/>
+        <View style={styles.container}>
+            <StatusBar
+                backgroundColor="#5F5395"
+                barStyle="light-content"
+            />
+            <AdminHomeScreenTabNavigator screenProps = {{access_token : this.state.access_token, onLogOut : this.onLogOut}} />
+         </View>
         );
     }
 }
 
-const HomeScreenTabNavigator = createBottomTabNavigator({
-    CurrentOrder: {
-        screen: CurrentOrder,
+const AdminHomeScreenTabNavigator = createBottomTabNavigator({
+    UserCurrentOrderStack: {
+        screen: UserCurrentOrderStack,
         navigationOptions:{
             tabBarLabel:'Tín hiệu mới',
             tabBarIcon: () => (
                 <Ionicons name="md-trending-up" size = {24} color = {'white'}/>
-            )
+            ),
+            header: null
         }
     },
-    OldOrder: {
-        screen: OldOrder,
+    UserOldOrderStack: {
+        screen: UserOldOrderStack,
         navigationOptions:{
             tabBarLabel:'Tín hiệu cũ',
             tabBarIcon: () => (
                 <Ionicons name="md-time" size = {24} color = {'white'}/>
-            )
+            ),
+            header: null
         }
     },
-    Account: {
-        screen: Account,
+    UserNotification: {
+        screen: UserNotification,
         navigationOptions:{
-            headerTitle: "Home",
+            tabBarLabel:'Thông báo',
+            tabBarIcon: () => (
+                <Ionicons name="md-notifications" size = {24} color = {'white'}/>
+            ),
+            header: null
+        }
+    },
+    UserAccountStackNavigator: {
+        screen: UserAccountStackNavigator,
+        navigationOptions:{
             tabBarLabel:'Tài khoản',
             tabBarIcon: () => (
                 <Ionicons name="md-contact" size = {24} color = {'white'}/>
-            )
-        }
+            ),
+            header: null
+        },
     }
 },  {
     tabBarOptions: {
         
-          activeBackgroundColor :'#1c313a',          
+          activeBackgroundColor :'#5F5395',          
           inactiveBackgroundColor :'black',
           activeTintColor: '#fff',
           showIcon: true,
         
     },
-    initialRouteName: 'CurrentOrder'
+    backgroundColor: '#4C9BCF',
     /* The header config from HomeScreen is now here */
   });
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#455a64',
+    backgroundColor: '#4C9BCF',
   },
 });

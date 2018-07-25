@@ -2,6 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, View, StatusBar, FlatList } from 'react-native';
 import { List, ListItem, SearchBar, Header } from "react-native-elements";
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import PTRView from 'react-native-pull-to-refresh';
 
 import axios from 'axios';
 import {GetRequest} from '../helper/request_helper';
@@ -16,11 +17,14 @@ export default class CurrentOrder extends React.Component {
             access_token : this.props.screenProps.access_token,
             data: null,
             user_number: null,
-            dataDisplay: null
+            dataDisplay: null,
+            refresh: null
         };
 
-
+        this._refresh = this._refresh.bind(this);
     }  
+
+
 
     componentDidMount() {
         this.makeRemoteRequest();
@@ -30,6 +34,7 @@ export default class CurrentOrder extends React.Component {
     makeRemoteRequest = () => {
         var dataDisplay = [];
         this.setState({ loading: true });
+        console.log("here");
         axios.get(`https://tinhieu-backend.herokuapp.com/notification`, 
         {
             headers: {
@@ -39,7 +44,6 @@ export default class CurrentOrder extends React.Component {
         .then(res => {
             const data = res.data;
             this.setState({data : data});
-            console.log(data.notifications);
             data.notifications.forEach(notification => {
                 if(notification.status == 0) {
                     dataDisplay.push(notification);
@@ -48,10 +52,18 @@ export default class CurrentOrder extends React.Component {
             this.setState({dataDisplay : dataDisplay});
         }).catch(error =>{
             console.log(error.response);
-            console.log(this.access_token);
+
         })
     };
     
+
+    _refresh() {
+        return new Promise((resolve) => {
+            this.makeRemoteRequest();
+            setTimeout(()=>{resolve()}, 1000)
+          
+        });
+    }
 
     renderSeparator = () => {
         return (
@@ -67,36 +79,39 @@ export default class CurrentOrder extends React.Component {
     
     render() {
         return (
-            <List containerStyle={{ borderTopWidth: 0, borderBottomWidth: 0 }}>
+            <View style = {styles.container}>
+            <Header 
+            outerContainerStyles={{ backgroundColor: 'black', height: StatusBar.currentHeight - 5 }}
+            />
             <Header 
                 centerComponent={{ text: 'Tín Hiệu Mới', style: { color: '#fff', fontSize: 16, fontWeight: 'bold' } }}
-                outerContainerStyles={{ backgroundColor: '#1c313a', height: 50 }}
-                innerContainerStyles={{ justifyContent: 'space-around' }}
+                outerContainerStyles={{ backgroundColor: '#5F5395', height: 50, marginTop: StatusBar.height }}
+
             />
-                <FlatList
-                    backgroundColor = 'black'
-                    data={this.state.dataDisplay}
-                    keyExtractor={item => item.id}
-                    ItemSeparatorComponent={this.renderSeparator}
-                    style={{  transform: [{ scaleY: -1 }] }}
-                    inverted
-                    renderItem={({ item }) => (
-                        <ListItem
-                          title={`${item.currency_code}`}
-                          titleStyle = {styles.textStyle}
-                          subtitle={item.buy_or_sell == true ? "Mua - " + `${item.price}` : "Bán - " + `${item.price}`}
-                          subtitleStyle = {styles.subtitleStyle}
-                          rightTitle = {"Lệnh đang chạy"}
-                          rightTitleStyle = {styles.rightTitleStyle}
-                          rightSubtitle = {"Vui lòng chờ"}
-                          containerStyle={{ borderBottomWidth: 0 }}
-                          
-                          
-                        />
-                    
-                    )}
-                />
-            </List>
+            <PTRView onRefresh={this._refresh}>
+                    <FlatList
+                        backgroundColor = 'black'
+                        data={this.state.dataDisplay}
+                        keyExtractor={item => item.id.toString()}
+                        ItemSeparatorComponent={this.renderSeparator}
+                        inverted
+                        renderItem={({ item }) => (
+                            <ListItem
+                            title={`${item.currency_code}`}
+                            titleStyle = {styles.textStyle}
+                            subtitle={item.buy_or_sell == 0 ? "Mua - " + `${item.price}` : "Bán - " + `${item.price}`}
+                            subtitleStyle = {styles.subtitleStyle}
+                            rightTitle = {"Lệnh đang chạy"}
+                            rightTitleStyle = {styles.rightTitleStyle}
+                            rightSubtitle = {"Vui lòng chờ"}
+                            containerStyle={{ borderBottomWidth: 0 }}
+                            onPress={()=> this.props.navigation.navigate('CurrentOrderLook', { item: item, access_token : this.state.access_token })}
+                            />
+                        
+                        )}
+                    />
+            </PTRView>
+            </View>
         );
     }
 }
@@ -104,8 +119,8 @@ export default class CurrentOrder extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: 'black'
+        flex : 1,
+        backgroundColor: '#4C9BCF'
   },
   textStyle:{
     fontSize: 19,

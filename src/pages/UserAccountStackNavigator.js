@@ -4,13 +4,14 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import { createStackNavigator, createBottomTabNavigator } from 'react-navigation';
 import { Ionicons } from 'react-native-vector-icons';
 
-import AdminCurrentOrder from '../navigator/AdminCurrentOrder';
-import AdminCurrentOrderLook from '../navigator/AdminCurrentOrderLook';
-import AdminOldOrder from '../navigator/AdminOldOrder';
-import AdminAccount from '../navigator/AdminAccount';
-import EditOrder from '../navigator/EditOrder';
+import CurrentOrder from '../navigator/CurrentOrder';
+import OldOrder from '../navigator/OldOrder';
+import Account from '../navigator/Account';
+import UserProfile from '../navigator/UserProfile';
+import PushNotification from '../components/PushNotification';
 
-import AdminNavigator from '../pages/AdminNavigator';
+import SignIn from '../pages/SignIn';
+import Navigator from '../pages/Navigator';
 
 export default class HomeScreen extends React.Component {
 
@@ -21,8 +22,12 @@ export default class HomeScreen extends React.Component {
             access_token : this.props.screenProps.access_token,
             user_number: null,
         };
+        this.onLogOut = this.onLogOut.bind(this);
     }  
 
+    onLogOut(){
+        this.props.screenProps.onLogOut();
+    }
     render() {
 
         return (
@@ -31,25 +36,20 @@ export default class HomeScreen extends React.Component {
             backgroundColor="#4C9BCF"
             barStyle="light-content"
           />
-            <CurrentOrderStackNavigator screenProps = {{access_token : this.state.access_token}} />
+            <UserAccountStackNavigator screenProps = {{access_token : this.state.access_token, onLogOut: this.onLogOut}} />
         </View>
             
         );
     }
 }
 
-const CurrentOrderStackNavigator = createStackNavigator({
-    AdminCurrentOrder: {screen: AdminCurrentOrder,
-        navigationOptions:{
-            header: null
-        }         
+const UserAccountStackNavigator = createStackNavigator({
+    Account: {screen: Account},
+    UserProfile: {
+      screen: UserProfile
     },
-    AdminCurrentOrderLook: {screen: AdminCurrentOrderLook,
-        navigationOptions:{
-        }         
-    },
-    EditOrder: {
-      screen: EditOrder
+    PushNotification: {
+        screen: PushNotification
     }
   });
 

@@ -4,13 +4,11 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import { createStackNavigator, createBottomTabNavigator } from 'react-navigation';
 import { Ionicons } from 'react-native-vector-icons';
 
-import AdminCurrentOrder from '../navigator/AdminCurrentOrder';
-import AdminCurrentOrderLook from '../navigator/AdminCurrentOrderLook';
-import AdminOldOrder from '../navigator/AdminOldOrder';
-import AdminAccount from '../navigator/AdminAccount';
-import EditOrder from '../navigator/EditOrder';
+import OldOrderLook from '../navigator/OldOrderLook';
+import OldOrder from '../navigator/OldOrder';
+import Account from '../navigator/Account';
 
-import AdminNavigator from '../pages/AdminNavigator';
+import Navigator from '../pages/Navigator';
 
 export default class HomeScreen extends React.Component {
 
@@ -31,25 +29,22 @@ export default class HomeScreen extends React.Component {
             backgroundColor="#4C9BCF"
             barStyle="light-content"
           />
-            <CurrentOrderStackNavigator screenProps = {{access_token : this.state.access_token}} />
+            <OldOrderStackNavigator screenProps = {{access_token : this.state.access_token}} />
         </View>
             
         );
     }
 }
 
-const CurrentOrderStackNavigator = createStackNavigator({
-    AdminCurrentOrder: {screen: AdminCurrentOrder,
+const OldOrderStackNavigator = createStackNavigator({
+    OldOrder: {screen: OldOrder,
         navigationOptions:{
             header: null
         }         
     },
-    AdminCurrentOrderLook: {screen: AdminCurrentOrderLook,
+    OldOrderLook: {screen: OldOrderLook,
         navigationOptions:{
         }         
-    },
-    EditOrder: {
-      screen: EditOrder
     }
   });
 

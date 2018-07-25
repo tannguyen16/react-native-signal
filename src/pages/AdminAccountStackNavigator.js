@@ -8,7 +8,10 @@ import AdminCurrentOrder from '../navigator/AdminCurrentOrder';
 import AdminOldOrder from '../navigator/AdminOldOrder';
 import AdminAccount from '../navigator/AdminAccount';
 import CreateOrder from '../navigator/CreateOrder';
+import UserProfile from '../navigator/UserProfile';
+import PushNotification  from '../components/PushNotification';
 
+import SignIn from '../pages/SignIn';
 import AdminNavigator from '../pages/AdminNavigator';
 
 export default class HomeScreen extends React.Component {
@@ -20,17 +23,22 @@ export default class HomeScreen extends React.Component {
             access_token : this.props.screenProps.access_token,
             user_number: null,
         };
+        this.onLogOut = this.onLogOut.bind(this);
     }  
+
+    onLogOut(){
+        this.props.screenProps.onLogOut();
+    }
 
     render() {
 
         return (
         <View style={styles.container}>
         <StatusBar
-            backgroundColor="#455a64"
+            backgroundColor="#4C9BCF"
             barStyle="light-content"
           />
-            <AdminStackNavigator screenProps = {{access_token : this.state.access_token}} />
+            <AdminStackNavigator screenProps = {{access_token : this.state.access_token, onLogOut: this.onLogOut}} />
         </View>
             
         );
@@ -40,13 +48,23 @@ export default class HomeScreen extends React.Component {
 const AdminStackNavigator = createStackNavigator({
     AdminAccount: {screen: AdminAccount},
     CreateOrder: {
-      screen: CreateOrder
-    }
+        screen: CreateOrder
+    },
+    UserProfile: {
+        screen: UserProfile
+    },
+    PushNotification: {
+        screen: PushNotification
+    },
+    SignIn: {screen: SignIn,
+        navigationOptions:{
+            gesturesEnabled:false
+        }}
   });
 const styles = StyleSheet.create({
     container: {
       flex: 1,
-      backgroundColor: '#455a64',
+      backgroundColor: '#4C9BCF',
     },
   });
   

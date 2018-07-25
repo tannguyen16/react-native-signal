@@ -32,9 +32,6 @@ export default class AdminOldOrder extends React.Component {
         });
     }
 
-    onSelect = refresh => {
-        this.setState(refresh);
-      };
 
     componentDidMount() {
         this.makeRemoteRequest();
@@ -80,13 +77,15 @@ export default class AdminOldOrder extends React.Component {
     render() {
         return (
             <View style = {styles.container} >
-            <PTRView onRefresh={this._refresh}>
-                <List containerStyle={{ borderTopWidth: 0, borderBottomWidth: 0 }}>
+            <Header 
+            outerContainerStyles={{ backgroundColor: 'black', height: StatusBar.currentHeight - 5 }}
+                />
                 <Header 
                     centerComponent={{ text: 'Tín Hiệu Cũ', style: { color: '#fff', fontSize: 16, fontWeight: 'bold' } }}
-                    outerContainerStyles={{ backgroundColor: '#1c313a', height: 50 }}
-                    innerContainerStyles={{ justifyContent: 'space-around' }}
+                    outerContainerStyles={{ backgroundColor: '#5F5395', height: 50, marginTop: StatusBar.height }}
+
                 />
+                <PTRView onRefresh={this._refresh}>
                     <FlatList
                         backgroundColor = 'black'
                         data={this.state.dataDisplay}
@@ -102,12 +101,11 @@ export default class AdminOldOrder extends React.Component {
                             rightTitle = {item.status == 1? "TAKE PROFIT" : "STOP LOSS"}
                             rightTitleStyle = {item.status == 1 ? styles.successTitleStyle : styles.failTitleStyle }
                             containerStyle={{ borderBottomWidth: 0 }}
-                            onPress={()=> this.props.navigation.navigate('AdminOldOrderLook', { item: item, access_token : this.state.access_token, onSelect: this.onSelect })}
+                            onPress={()=> this.props.navigation.navigate('AdminOldOrderLook', { item: item, access_token : this.state.access_token })}
                             />
                         
                         )}
                     />
-                </List>
             </PTRView>
             </View>
         );
@@ -118,7 +116,7 @@ export default class AdminOldOrder extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#455a64',
+    backgroundColor: '#4C9BCF',
   },
   textStyle:{
     fontSize: 19,

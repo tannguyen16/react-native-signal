@@ -10,9 +10,9 @@ import {GetRequest} from '../helper/request_helper';
 export default class AdminCurrentOrderLook extends React.Component {
 
     static navigationOptions = {
-        headerStyle: { backgroundColor: '#1c313a', height: 40 },
+        headerStyle: { backgroundColor: '#5F5395', height: 40 },
         headerTitleStyle: { color: 'white', alignItems: 'center' },
-        title: "Tạo tín hiệu",
+        title: "Xem Lệnh",
     }
 
     constructor(props) {
@@ -50,7 +50,6 @@ export default class AdminCurrentOrderLook extends React.Component {
         .then(res => {
             const { navigation } = this.props;
             navigation.goBack();
-            navigation.state.params.onSelect({ selected: true });
         })
         .catch(error =>{
             console.log(error.response);
@@ -78,7 +77,6 @@ export default class AdminCurrentOrderLook extends React.Component {
         .then(res => {
             const { navigation } = this.props;
             navigation.goBack();
-            navigation.state.params.onSelect({ selected: true });
         })
         .catch(error =>{
             console.log(error.response);
@@ -115,7 +113,6 @@ export default class AdminCurrentOrderLook extends React.Component {
         .then(res => {
             const { navigation } = this.props;
             navigation.goBack();
-            navigation.state.params.onSelect({ selected: true });
         })
         .catch(error =>{
             console.log(error.response);
@@ -126,13 +123,7 @@ export default class AdminCurrentOrderLook extends React.Component {
 
     render() {
         return (
-            <List containerStyle={{ flex: 1, borderTopWidth: 0, borderBottomWidth: 0, backgroundColor: 'black' }}>
-                <Header 
-                    centerComponent={{ text: 'Xem Lệnh', style: { color: '#fff', fontSize: 16, fontWeight: 'bold' } }}
-                    outerContainerStyles={{ backgroundColor: '#1c313a', height: 50 }}
-                    innerContainerStyles={{ justifyContent: 'space-around' }}
-                />
-
+            <View style = {styles.container}>
                 <View style = {styles.rowContainer}>
                     <Button 
                         buttonStyle = {styles.buttonEdit}
@@ -152,6 +143,7 @@ export default class AdminCurrentOrderLook extends React.Component {
                 <ListItem 
                     title={this.state.item.currency_code}
                     titleStyle = {styles.textStyle}
+                    subtitle= {"" + this.state.item.time_open.split(' ')[1].split('.')[0]}
                     containerStyle={{ height: 50 }}
                     hideChevron
                 />
@@ -190,20 +182,20 @@ export default class AdminCurrentOrderLook extends React.Component {
                     containerStyle={{ height: 35 }}
                     hideChevron
                 />
-                <View style = {styles.container}>
+                <View style = {styles.resContainer}>
                     <Text style = {styles.textStyle}> Đang Chờ Kết Quả </Text>
                 </View>
                 <View style = {styles.rowContainer}>
                     <Button 
                         buttonStyle = {styles.buttonTP}
-                        title="Cắt lệnh với Take Profit"
+                        title="TAKE PROFIT"
                         textStyle = {styles.buttonText}
                         containerViewStyle = {styles.buttonContainer}
                         onPress = {this._endOrderTP}
                     />
                     <Button 
                         buttonStyle = {styles.buttonSL}
-                        title="Cắt lệnh với Stop Loss"
+                        title="STOP LOSS"
                         textStyle = {styles.buttonText}
                         containerViewStyle = {styles.buttonContainer}
                         onPress = {this._endOrderSL}
@@ -212,9 +204,7 @@ export default class AdminCurrentOrderLook extends React.Component {
                     <FormValidationMessage>
                         {this.state.errorMessage}
                     </FormValidationMessage>
-
-                </List>
-
+            </View>
         );
     }
 }
@@ -222,11 +212,14 @@ export default class AdminCurrentOrderLook extends React.Component {
 
 const styles = StyleSheet.create({
     container: {
+        flex : 1,
+        backgroundColor: 'black'
+  },
+    resContainer: {
+        flex : 1,
         backgroundColor: 'black',
         alignItems: 'center',
         justifyContent: 'center',
-        marginVertical: 10,
-        borderBottomWidth: 5,
     },
     rowContainer: {
         backgroundColor: 'black',
@@ -238,32 +231,41 @@ const styles = StyleSheet.create({
     inputBox:{
         width:350,
         height:50,
-        backgroundColor: '#1c313a',
+        backgroundColor: '#5F5395',
         borderRadius: 10,
         paddingHorizontal: 16,
         color: '#ffffff',
         marginVertical: 10
     },
     buttonTP:{
-        width:100,
-        height:50,
+        width:150,
+        height:70,
         backgroundColor: 'green',
         borderRadius: 15,
+        justifyContent: "center",
+        alignSelf: "stretch"
     },
     buttonEdit:{
-        width:100,
-        height:50,
-        backgroundColor: '#1c313a',
+        width:150,
+        height:70,
+        backgroundColor: '#5F5395',
         borderRadius: 15,
+        justifyContent: "center",
+       alignSelf: "stretch"
     },
     buttonSL:{
-        width:100,
-        height:50,
+        width:150,
+        height:70,
         backgroundColor: 'red',
         borderRadius: 15,
+        justifyContent: "center",
+        alignSelf: "stretch"
     },
     buttonContainer:{
         paddingVertical: 10,
+        justifyContent: 'center', 
+        alignItems: 'center' ,
+        alignSelf: 'center'
     },
     textStyle:{
         fontSize: 18,

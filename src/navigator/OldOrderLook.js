@@ -25,55 +25,21 @@ export default class AdminOldOrderLook extends React.Component {
             item: navigation.getParam('item', null),
             errorMessage : null
         };
-        this._deleteOrder= this._deleteOrder.bind(this);
-        this._alertDelete= this._alertDelete.bind(this);
+       
     }  
-
-    _alertDelete(){
-        Alert.alert(
-            'Xóa lệnh',
-            'Bạn có muốn xóa lệnh này không?',
-            [
-              {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
-              {text: 'OK', onPress: () => this._deleteOrder()},
-            ],
-            { cancelable: false }
-          )
-    }
-
-    _deleteOrder() {
-        const itemId = this.state.item.id;
-        axios.delete(`https://tinhieu-backend.herokuapp.com/admin/notification/` + itemId, 
-        {
-            headers: {
-                "Authorization" : "Bearer " + this.state.access_token
-            }
-        })
-        .then(res => {
-            const data = res.data;
-            console.log(data);
-            this.setState({errorMessage: "Cắt lệnh thành công"})
-        })
-        .then(res => {
-            const { navigation } = this.props;
-            navigation.goBack();
-        })
-        .catch(error =>{
-            console.log(error.response);
-            this.setState({errorMessage: "Cắt lệnh không thành công"})
-            console.log(this.access_token);
-        })
-    }
 
 
     render() {
+        var dateSplit = this.state.item.time_open.split(' ');
+        var date = new Date(dateSplit[0] + "T" + dateSplit[1].split('.')[0] + "Z");
+        date = date.toLocaleTimeString('en-GB');
         return (
-
             <View style = {styles.container}>
+                <ListItem hideChevron containerStyle={{ backgroundColor: 'black', height: 40 }}/>
                 <ListItem 
                     title={this.state.item.currency_code}
                     titleStyle = {styles.textStyle}
-                    subtitle= {"" + this.state.item.time_open.split(' ')[1].split('.')[0]}
+                    subtitle= {"" + date}
                     containerStyle={{ height: 50 }}
                     hideChevron
                 />
@@ -115,20 +81,9 @@ export default class AdminOldOrderLook extends React.Component {
                 <View style = {styles.resContainer}>
                 {this.state.value == 'news'? <Text style = {styles.successTitleStyle} > TAKE PROFIT </Text> : <Text style = {styles.failTitleStyle}> STOP LOSS </Text> }
                 </View>
-                <View style = {styles.rowContainer}>
-                    <Button 
-                        buttonStyle = {styles.buttonSL}
-                        title="Xóa lệnh"
-                        textStyle = {styles.buttonText}
-                        containerViewStyle = {styles.buttonContainer}
-                        onPress = {this._alertDelete}
-                    />
-
-                </View>
                     <FormValidationMessage>
                         {this.state.errorMessage}
                     </FormValidationMessage>
-
             </View>
         );
     }
@@ -141,7 +96,7 @@ const styles = StyleSheet.create({
         backgroundColor: 'black'
     },
     resContainer: {
-        height: 30,
+        flexGrow : 1,
         backgroundColor: 'black',
         alignItems: 'center',
         justifyContent: 'center',
@@ -189,7 +144,6 @@ const styles = StyleSheet.create({
     },
     textStyle:{
         fontSize: 18,
-        fontWeight: 'bold',
         color: "#fff"
     },
 });

@@ -27,7 +27,7 @@ export default class HomeScreen extends React.Component {
         return (
         <View style={styles.container}>
         <StatusBar
-            backgroundColor="#455a64"
+            backgroundColor="#4C9BCF"
             barStyle="light-content"
           />
             <OldOrderStackNavigator screenProps = {{access_token : this.state.access_token}} />
@@ -45,7 +45,6 @@ const OldOrderStackNavigator = createStackNavigator({
     },
     AdminOldOrderLook: {screen: AdminOldOrderLook,
         navigationOptions:{
-            header: null
         }         
     },
     CreateOrder: {
@@ -56,7 +55,7 @@ const OldOrderStackNavigator = createStackNavigator({
 const styles = StyleSheet.create({
     container: {
       flex: 1,
-      backgroundColor: '#455a64',
+      backgroundColor: '#4C9BCF',
     },
   });
   

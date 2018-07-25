@@ -10,9 +10,9 @@ import {GetRequest} from '../helper/request_helper';
 export default class CreateOrder extends React.Component {
 
     static navigationOptions = {
-        headerStyle: { backgroundColor: '#1c313a', height: 40 },
+        headerStyle: { backgroundColor: '#5F5395', height: 40 },
         headerTitleStyle: { color: 'white', alignItems: 'center' },
-        title: "Tạo tín hiệu",
+        title: "Chỉnh sửa lệnh",
     }
 
     constructor(props) {
@@ -69,7 +69,6 @@ export default class CreateOrder extends React.Component {
             this.setState({errorMessage: "Đặt lệnh thành công"})
             const { navigation } = this.props;
             navigation.goBack();
-            navigation.state.params.onSelect({ selected: true });
         }).catch(error =>{
             console.log(error.response);
             this.setState({errorMessage: "Đặt lệnh không thành công"})
@@ -91,11 +90,11 @@ export default class CreateOrder extends React.Component {
                         placeholderTextColor = '#ffffff'
                         onChangeText={(text) => this.setState({ currency_code : text})}
                     />
-                    <Text style = {styles.textStyle}> Chọn Mua hoặc Bán </Text>
-                    <Picker
+                    <Text style = {styles.textStyle}> Chọn Mua hoặc Bán (1 cho Mua hoặc 2 cho Bán)</Text>
+                    {/* <Picker
                         selectedValue={this.state.item.buy_or_sell == 0? "Mua" : "Bán"}
                         style={{ height: 50, width: 100, 
-                            backgroundColor: '#1c313a',
+                            backgroundColor: '#5F5395',
                             borderRadius: 10,
                             paddingHorizontal: 16,
                             color: '#ffffff',
@@ -103,7 +102,16 @@ export default class CreateOrder extends React.Component {
                         onValueChange={(itemValue, itemIndex) => this.setState({buy_or_sell: itemValue, pickBuy: itemValue})}>
                         <Picker.Item label="Mua" value= "0" />
                         <Picker.Item label="Bán" value= "1" />
-                    </Picker>
+                    </Picker> */}
+                    <TextInput 
+                        defaultValue = {this.state.item.buy_or_sell + 1 + ""}
+                        style = {styles.inputBox} 
+                        underlineColorAndroid = 'rgba(0, 0, 0, 0)'
+                        selectionColor="#fff"
+                        placeholderTextColor = '#ffffff'
+                        keyboardType = "phone-pad"
+                        onChangeText={(text) => this.setState({ price : text})}
+                    />
                     <Text style = {styles.textStyle}> Giá Mua hoặc Giá Bán </Text>
                     <TextInput 
                         defaultValue = {"" + this.state.item.price}
@@ -176,14 +184,14 @@ export default class CreateOrder extends React.Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#455a64',
+        backgroundColor: '#4C9BCF',
         alignItems: 'center',
         justifyContent: 'center'
     },
     inputBox:{
         width:350,
         height:50,
-        backgroundColor: '#1c313a',
+        backgroundColor: '#5F5395',
         borderRadius: 10,
         paddingHorizontal: 16,
         color: '#ffffff',
@@ -192,7 +200,7 @@ const styles = StyleSheet.create({
     button:{
         width:300,
         height:50,
-        backgroundColor: '#1c313a',
+        backgroundColor: '#5F5395',
         borderRadius: 22,
     },
     buttonContainer:{

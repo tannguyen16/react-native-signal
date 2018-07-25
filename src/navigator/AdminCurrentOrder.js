@@ -10,11 +10,6 @@ import {GetRequest} from '../helper/request_helper';
 
 export default class AdminCurrentOrder extends React.Component {
 
-    static navigationOptions = {
-        headerStyle: { backgroundColor: '#1c313a', height: 40 },
-        headerTitleStyle: { color: 'white', alignItems: 'center' },
-        title: "Tạo tín hiệu",
-    }
 
     constructor(props) {
         super(props);
@@ -23,15 +18,14 @@ export default class AdminCurrentOrder extends React.Component {
             access_token : this.props.screenProps.access_token,
             data: null,
             user_number: null,
-            dataDisplay: null
+            dataDisplay: null,
+            refresh: null
         };
 
         this._refresh = this._refresh.bind(this);
     }  
 
-    onSelect = refresh => {
-        this.setState(refresh);
-      };
+
 
     componentDidMount() {
         this.makeRemoteRequest();
@@ -86,15 +80,17 @@ export default class AdminCurrentOrder extends React.Component {
     render() {
         return (
             <View style = {styles.container}>
-            <PTRView onRefresh={this._refresh}>
-                <List containerStyle={{ borderTopWidth: 0, borderBottomWidth: 0 }}>
+                <Header 
+                    outerContainerStyles={{ backgroundColor: 'black', height: StatusBar.currentHeight - 5 }}
+                />
                 <Header 
                     centerComponent={{ text: 'Tín Hiệu Mới', style: { color: '#fff', fontSize: 16, fontWeight: 'bold' } }}
-                    outerContainerStyles={{ backgroundColor: '#1c313a', height: 50 }}
-                    innerContainerStyles={{ justifyContent: 'space-around' }}
+                    outerContainerStyles={{ backgroundColor: '#5F5395', height: 50, marginTop: StatusBar.height }}
+
                 />
+                <PTRView onRefresh={this._refresh}>
                     <FlatList
-                        backgroundColor = 'black'
+                        backgroundColor = '#4874A9'
                         data={this.state.dataDisplay}
                         keyExtractor={item => item.id.toString()}
                         ItemSeparatorComponent={this.renderSeparator}
@@ -109,13 +105,12 @@ export default class AdminCurrentOrder extends React.Component {
                             rightTitleStyle = {styles.rightTitleStyle}
                             rightSubtitle = {"Vui lòng chờ"}
                             containerStyle={{ borderBottomWidth: 0 }}
-                            onPress={()=> this.props.navigation.navigate('AdminCurrentOrderLook', { item: item, access_token : this.state.access_token, onSelect: this.onSelect })}
+                            onPress={()=> this.props.navigation.navigate('AdminCurrentOrderLook', { item: item, access_token : this.state.access_token })}
                             />
                         
                         )}
                     />
-                </List>
-            </PTRView>
+                </PTRView>
             </View>
         );
     }
@@ -125,7 +120,7 @@ export default class AdminCurrentOrder extends React.Component {
 const styles = StyleSheet.create({
   container: {
         flex : 1,
-        backgroundColor: '#455a64'
+        backgroundColor: '#4C9BCF'
   },
   textStyle:{
     fontSize: 19,

@@ -22,16 +22,22 @@ export default class AdminNavigator extends React.Component {
             user_number: null,
             access_token: this.props.access_token
         };
+        this.onLogOut = this.onLogOut.bind(this);
+
     }  
 
+    onLogOut(){
+        this.props.onLogOut();
+    }
+    
     render() {
         return (
         <View style={styles.container}>
             <StatusBar
-                backgroundColor="#1c313a"
+                backgroundColor="#5F5395"
                 barStyle="light-content"
             />
-            <AdminHomeScreenTabNavigator screenProps = {{access_token : this.state.access_token}} />
+            <AdminHomeScreenTabNavigator screenProps = {{access_token : this.state.access_token, onLogOut : this.onLogOut}} />
          </View>
         );
     }
@@ -54,7 +60,8 @@ const AdminHomeScreenTabNavigator = createBottomTabNavigator({
             tabBarLabel:'Tín hiệu cũ',
             tabBarIcon: () => (
                 <Ionicons name="md-time" size = {24} color = {'white'}/>
-            )
+            ),
+            header: null
         }
     },
     AdminAccountStackNavigator: {
@@ -70,19 +77,19 @@ const AdminHomeScreenTabNavigator = createBottomTabNavigator({
 },  {
     tabBarOptions: {
         
-          activeBackgroundColor :'#1c313a',          
+          activeBackgroundColor :'#5F5395',          
           inactiveBackgroundColor :'black',
           activeTintColor: '#fff',
           showIcon: true,
         
     },
-    backgroundColor: '#455a64',
+    backgroundColor: '#4C9BCF',
     /* The header config from HomeScreen is now here */
   });
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#455a64',
+    backgroundColor: '#4C9BCF',
   },
 });
