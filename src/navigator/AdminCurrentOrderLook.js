@@ -148,7 +148,7 @@ export default class AdminCurrentOrderLook extends React.Component {
                     hideChevron
                 />
                 <ListItem 
-                    title={this.state.item.buy_or_sell == 0 ? "MUA": "BÁN"}
+                    title={this.state.item.buy_or_sell == 0 ? "BUY": "SELL"}
                     titleStyle = {styles.textStyle}
                     rightTitle={"" + this.state.item.price}
                     containerStyle={{ height: 50 }}

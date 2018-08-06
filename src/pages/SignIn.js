@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, StatusBar, TouchableOpacity, TextInput, AsyncStorage } from 'react-native';
+import { StyleSheet, Text, View, StatusBar, TouchableOpacity, TextInput, AsyncStorage, Alert, Image } from 'react-native';
 import { FormLabel, FormInput, FormValidationMessage, Button } from 'react-native-elements';
 
 import axios from 'axios';
@@ -28,12 +28,16 @@ export default class SignIn extends React.Component {
             errorMessage: null,
             ready: false,
             qualified : false,
-            user_type: ""
+            user_type: "",
+            language: 'vi-VN'
         };
         this.getFromStorage = this.getFromStorage.bind(this);
         this.checkIfQualified = this.checkIfQualified.bind(this);
         this._handleSigninAdmin = this._handleSigninAdmin.bind(this);
         this._handleSigninUser = this._handleSigninUser.bind(this);
+        this._changeLanguageEng = this._changeLanguageEng.bind(this);
+        this._changeLanguageVn = this._changeLanguageVn.bind(this);
+
     }  
     
     componentWillMount(){
@@ -69,17 +73,65 @@ export default class SignIn extends React.Component {
         })
     }
 
+    _changeLanguageEng(){
+        I18n.locale = "en"; 
+        try {
+            AsyncStorage.setItem('language', 'en');
+        } catch (error) {
+            // Error saving data
+        }
+        this.setState({language : 'en'});
+    }
+    _changeLanguageVn(){
+        I18n.locale = "vi-VN"; 
+        try {
+            AsyncStorage.setItem('language', 'vi-VN');
+        } catch (error) {
+            // Error saving data
+        }
+        this.setState({language : 'vi-VN'});
+    }
+    // _alertLanguage() {
+    //     Alert.alert(
+    //         I18n.t('languageSelect'),
+    //         I18n.t('languagePrompt'),
+    //         [
+    //           {text: I18n.t('eng'), onPress: () => {
+    //             I18n.locale = "en"; 
+    //             try {
+    //               AsyncStorage.setItem('language', 'en');
+    //             } catch (error) {
+    //               // Error saving data
+    //             }
+    //             this.forceUpdate();
+    //           }},
+    //           {text: I18n.t('viet'), onPress: () => {
+    //             I18n.locale = "vi-VN"; 
+    //             try {
+    //               AsyncStorage.setItem('language', 'vi-VN');
+    //             } catch (error) {
+    //               // Error saving data
+    //             }
+    //             this.forceUpdate();
+    //           }},
+    //         ]
+    //       )
+    //   }
+
     getFromStorage(){
         console.log('Storage here');
         var token;
         var user_id;
         var user_type;
-        AsyncStorage.multiGet(['token', 'user_id', 'user_type']).then((data) =>{
+        AsyncStorage.multiGet(['token', 'user_id', 'user_type', 'language']).then((data) =>{
             console.log(data);
             if(data[0][1]){
                 token = data[0][1] || null;
                 user_id = Number(data[1][1]) || null;
                 user_type = data[2][1] || null;
+            }
+            if(data[3][1]){
+                I18n.locale = data[3][1];
             }
         }).then((user) => {
             console.log(user_id != null);
@@ -145,7 +197,7 @@ export default class SignIn extends React.Component {
                     }
                 }).then(res => {
                     if(this.state.access_token != " ") 
-                        this.props.navigation.navigate('Home', {user_id : this.state.user_id, access_token : this.state.access_token, parentNavigation: this.props.navigation });
+                        this.props.navigation.navigate('Home', {user_id : this.state.user_id, access_token : this.state.access_token, parentNavigation: this.props.navigation, language : this.state.language });
                 }).catch(error =>{
                     console.log(error); 
                     this.setState({errorMessage : "Tài khoản của bạn chưa được kích hoạt hoặc đã hết hạn"});
@@ -196,6 +248,10 @@ export default class SignIn extends React.Component {
 
             return(
                 <View style={styles.container}>
+                    {/* <Button 
+                        title= {I18n.t('languageSelect')}
+                        onPress = {this._alertLanguage}
+                    /> */}
                     <Logo/>
                     
                     <TextInput 
@@ -234,6 +290,20 @@ export default class SignIn extends React.Component {
                         onPress = {this._handleSigninUser}
                     />
                     </View>
+                    <View style = {styles.rowContainerImage}>
+                    <TouchableOpacity style = {{marginHorizontal : 15}} onPress={this._changeLanguageEng}>
+                        <Image
+                            style={{width: 40, height: 25}}
+                            source={require('../images/us.png')}
+                        />
+                        </TouchableOpacity>
+                    <TouchableOpacity style = {{marginHorizontal : 15}} onPress={this._changeLanguageVn}>
+                        <Image
+                            style={{width: 40, height: 25}}
+                            source={require('../images/vn.png')}
+                        />
+                    </TouchableOpacity>
+                    </View>
                     <View style={styles.signupTextCont}>
                         <Text style = {styles.signupText}></Text>
                         <TouchableOpacity onPress={this._handleSigninAdmin}>
@@ -248,7 +318,7 @@ export default class SignIn extends React.Component {
         else{
             if(this.state.user_type == 'User')
             //return (<HomeScreen user_id = {this.state.user_id} access_token = {this.state.access_token}/>)
-                return this.props.navigation.navigate('Home', {user_id : this.state.user_id, access_token : this.state.access_token, parentNavigation: this.props.navigation });
+                return this.props.navigation.navigate('Home', {user_id : this.state.user_id, access_token : this.state.access_token, parentNavigation: this.props.navigation, language : this.state.language });
             
             else{
                 if(this.state.user_type == 'Admin')
@@ -266,14 +336,56 @@ I18n.translations = {
     password: 'Password',
     signin: 'Sign In',
     signup: 'Sign Up',
-    adminsignin: 'Sign In as an Admin'
+    haveaccount: 'You had an account?',
+    adminsignin: 'Sign In as an Admin',
+    languageSelect: 'Select your language',
+    languagePrompt: 'Please select a language',
+    eng: 'English',
+    viet: 'Vietnamese',
+    info: 'Account information',
+    logout: 'Log out',
+    account: 'Account',
+    currentSignal: 'New Signals',
+    oldSignal: 'Old Signals',
+    noti: 'Notifications',
+    first: 'First Name',
+    last: 'Last Name',
+    ID: 'ID Number',
+    phonenumber: 'Phone Number',
+    area: 'Area Code',
+    dateactive: 'Activated Date',
+    datedeact: 'Expired Date',
+    inactive: 'Unactivated',
+    passwordconfirm: 'Confirm Password',
+    running: 'Waiting'
   },
   'vi-VN': {
     username: 'Tên tài khoản',
     password: 'Mật khẩu',
     signin: 'Đăng nhập',
     signup: 'Đăng ký',
-    adminsignin: 'Đăng nhập Admin'
+    haveaccount: 'Bạn đã có tài khoản?',
+    adminsignin: 'Đăng nhập Admin',
+    languageSelect: 'Chọn ngôn ngữ',
+    languagePrompt: 'Xin mời bạn chọn ngôn ngữ',
+    eng: 'Tiếng Anh',
+    viet: 'Tiếng Việt',
+    info: 'Thông tin tài khoản',
+    logout: 'Thoát tài khoản',
+    account: 'Tài Khoản',
+    currentSignal: 'Tín Hiệu Mới',
+    oldSignal: 'Tín Hiệu Cũ',
+    noti: 'Thông Báo',
+    first: 'Tên',
+    last: 'Họ',
+    ID: 'Mã ID',
+    phonenumber: 'Số điện thoại',
+    area: 'Mã vùng',
+    dateactive: 'Ngày kích hoạt',
+    datedeact: 'Ngày hết hạn',
+    inactive: 'Chưa kích hoạt',
+    passwordconfirm: 'Nhập lại mật khẩu',
+    running: 'Lệnh đang chạy'
   }
 }
 
@@ -289,6 +401,13 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         marginVertical: 10
+    },
+    rowContainerImage: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginTop: 20,
+        paddingHorizontal: 10
     },
     signupTextCont:{
         flexGrow:1,

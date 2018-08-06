@@ -7,11 +7,11 @@ import { Ionicons } from 'react-native-vector-icons';
 import * as firebase from 'firebase';
 import { Permissions, Notifications } from 'expo';
 
+import I18n from 'ex-react-native-i18n';
+
 import Navigator from '../pages/Navigator';
 
 export default class HomeScreen extends React.Component {
-
-    
 
     constructor(props) {
         super(props);
@@ -113,11 +113,49 @@ export default class HomeScreen extends React.Component {
             backgroundColor="#4C9BCF"
             barStyle="light-content"
           />
-            <Navigator access_token = {this.state.access_token} onLogOut = {this.onLogOut} />
+            <Navigator access_token = {this.state.access_token} onLogOut = {this.onLogOut} I18n = {this.state.I18n} />
         </View>
             
         );
     }
+}
+
+
+I18n.translations = {
+  'en': {
+    username: 'Username',
+    password: 'Password',
+    signin: 'Sign In',
+    signup: 'Sign Up',
+    adminsignin: 'Sign In as an Admin',
+    languageSelect: 'Select your language',
+    languagePrompt: 'Please select a language',
+    eng: 'English',
+    viet: 'Vietnamese',
+    info: 'Account information',
+    logout: 'Log out',
+    account: 'Account',
+    currentSignal: 'New Signals',
+    oldSignal: 'Old Signals',
+    noti: 'Notifications'
+  },
+  'vi-VN': {
+    username: 'Tên tài khoản',
+    password: 'Mật khẩu',
+    signin: 'Đăng nhập',
+    signup: 'Đăng ký',
+    adminsignin: 'Đăng nhập Admin',
+    languageSelect: 'Chọn ngôn ngữ',
+    languagePrompt: 'Xin mời bạn chọn ngôn ngữ',
+    eng: 'Tiếng Anh',
+    viet: 'Tiếng Việt',
+    info: 'Thông tin tài khoản',
+    logout: 'Thoát tài khoản',
+    account: 'Tài Khoản',
+    currentSignal: 'Tín Hiệu Mới',
+    oldSignal: 'Tín Hiệu Cũ',
+    noti: 'Thông Báo'
+  }
 }
 
 const styles = StyleSheet.create({

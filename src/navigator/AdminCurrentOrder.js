@@ -99,7 +99,7 @@ export default class AdminCurrentOrder extends React.Component {
                             <ListItem
                             title={`${item.currency_code}`}
                             titleStyle = {styles.textStyle}
-                            subtitle={item.buy_or_sell == 0 ? "Mua - " + `${item.price}` : "Bán - " + `${item.price}`}
+                            subtitle={item.buy_or_sell == 0 ? "Buy - " + `${item.price}` : "Sell - " + `${item.price}`}
                             subtitleStyle = {styles.subtitleStyle}
                             rightTitle = {"Lệnh đang chạy"}
                             rightTitleStyle = {styles.rightTitleStyle}

@@ -4,6 +4,8 @@ import { List, ListItem, SearchBar, Header } from "react-native-elements";
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import PTRView from 'react-native-pull-to-refresh';
 
+import I18n from 'ex-react-native-i18n';
+
 import axios from 'axios';
 import {GetRequest} from '../helper/request_helper';
 
@@ -82,7 +84,7 @@ export default class AdminOldOrder extends React.Component {
                 outerContainerStyles={{ backgroundColor: 'black', height: StatusBar.currentHeight - 5 }}
             />
             <Header 
-                centerComponent={{ text: 'Tín Hiệu Cũ', style: { color: '#fff', fontSize: 16, fontWeight: 'bold' } }}
+                centerComponent={{ text: I18n.t('oldSignal'), style: { color: '#fff', fontSize: 16, fontWeight: 'bold' } }}
                 outerContainerStyles={{ backgroundColor: '#5F5395', height: 50, marginTop: StatusBar.height }}
 
             />
@@ -97,7 +99,7 @@ export default class AdminOldOrder extends React.Component {
                             <ListItem 
                             title={`${item.currency_code}`}
                             titleStyle = {styles.textStyle}
-                            subtitle={item.buy_or_sell == 0 ? "Mua - " + `${item.price}` : "Bán - " + `${item.price}`}
+                            subtitle={item.buy_or_sell == 0 ? "Buy - " + `${item.price}` : "Sell - " + `${item.price}`}
                             subtitleStyle = {styles.subtitleStyle}
                             rightTitle = {item.status == 1? "TAKE PROFIT" : "STOP LOSS"}
                             rightTitleStyle = {item.status == 1 ? styles.successTitleStyle : styles.failTitleStyle }

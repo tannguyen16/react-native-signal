@@ -3,6 +3,8 @@ import { StyleSheet, Text, View, StatusBar, FlatList, TextInput, Picker, Alert }
 import { List, ListItem, SearchBar, Header, FormValidationMessage, Button } from "react-native-elements";
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
+import I18n from 'ex-react-native-i18n';
+
 import axios from 'axios';
 import {GetRequest} from '../helper/request_helper';
 
@@ -11,8 +13,7 @@ export default class CurrentOrderLook extends React.Component {
 
     static navigationOptions = {
         headerStyle: { backgroundColor: '#5F5395', height: 40 },
-        headerTitleStyle: { color: 'white', alignItems: 'center' },
-        title: "Xem Lệnh",
+        headerTitleStyle: { color: 'white', alignItems: 'center' }
     }
 
     constructor(props) {
@@ -46,7 +47,7 @@ export default class CurrentOrderLook extends React.Component {
                     hideChevron
                 />
                 <ListItem 
-                    title={this.state.item.buy_or_sell == 0 ? "MUA": "BÁN"}
+                    title={this.state.item.buy_or_sell == 0 ? "BUY": "SELL"}
                     titleStyle = {styles.textStyle}
                     rightTitle={"" + this.state.item.price}
                     containerStyle={{ height: 50 }}
@@ -81,7 +82,7 @@ export default class CurrentOrderLook extends React.Component {
                     hideChevron
                 />
                 <View style = {styles.resContainer}>
-                    <Text style = {styles.textStyle}> Đang Chờ Kết Quả </Text>
+                    <Text style = {styles.textStyle}> {I18n.t('running')} </Text>
                 </View>
                     <FormValidationMessage>
                         {this.state.errorMessage}

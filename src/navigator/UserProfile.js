@@ -3,6 +3,8 @@ import { StyleSheet, Text, View, StatusBar, FlatList, TextInput, Picker, Alert }
 import { List, ListItem, SearchBar, Header, FormValidationMessage, Button } from "react-native-elements";
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
+import I18n from 'ex-react-native-i18n';
+
 import axios from 'axios';
 import {GetRequest} from '../helper/request_helper';
 
@@ -11,8 +13,7 @@ export default class UserProfile extends React.Component {
 
     static navigationOptions = {
         headerStyle: { backgroundColor: '#5F5395', height: 40 },
-        headerTitleStyle: { color: 'white', alignItems: 'center' },
-        title: "Thông Tin Tài Khoản",
+        headerTitleStyle: { color: 'white', alignItems: 'center' }
     }
 
     constructor(props) {
@@ -37,28 +38,28 @@ export default class UserProfile extends React.Component {
                     innerContainerStyles={{ justifyContent: 'space-around' }}
                 /> */}
                 <ListItem 
-                    title={'Họ'}
+                    title={I18n.t('first')}
                     titleStyle = {styles.textStyle}
                     rightTitle={"" + this.state.data.last_name}
                     containerStyle={{ height: 50 }}
                     hideChevron
                 />
                 <ListItem 
-                    title={'Tên'}
+                    title={I18n.t('last')}
                     titleStyle = {styles.textStyle}
                     rightTitle={"" + this.state.data.first_name}
                     containerStyle={{ height: 50 }}
                     hideChevron
                 />
                 <ListItem 
-                    title={'Tên tài khoản'}
+                    title={I18n.t('username')}
                     titleStyle = {styles.textStyle}
                     rightTitle={"" + this.state.data.username}
                     containerStyle={{ height: 50 }}
                     hideChevron
                 />
                 <ListItem 
-                    title={'Mã ID'}
+                    title={I18n.t('ID')}
                     titleStyle = {styles.textStyle}
                     rightTitle={"" + this.state.data.id}
                     containerStyle={{ height: 50 }}
@@ -72,23 +73,23 @@ export default class UserProfile extends React.Component {
                     hideChevron
                 />
                 <ListItem 
-                    title={'Số điện thoại'}
+                    title={I18n.t('phonenumber')}
                     titleStyle = {styles.textStyle}
                     rightTitle={"" + this.state.data.phone}
                     containerStyle={{ height: 50 }}
                     hideChevron
                 />
                 <ListItem 
-                    title={'Ngày kích hoạt'}
+                    title={I18n.t('dateactive')}
                     titleStyle = {styles.textStyle}
-                    rightTitle={this.state.data.date_of_active == null ? "Chưa kích hoạt" : "" + this.state.data.date_of_active.split(' ')[0]}
+                    rightTitle={this.state.data.date_of_active == null ? I18n.t('inactive') : "" + this.state.data.date_of_active.split(' ')[0]}
                     containerStyle={{ height: 50 }}
                     hideChevron
                 />
                 <ListItem 
-                    title={'Ngày hết hạn'}
+                    title={I18n.t('datedeact')}
                     titleStyle = {styles.textStyle}
-                    rightTitle={this.state.data.date_of_deactive == null ? "Chưa kích hoạt" : "" + this.state.data.date_of_deactive.split(' ')[0]}
+                    rightTitle={this.state.data.date_of_deactive == null ? I18n.t('inactive') : "" + this.state.data.date_of_deactive.split(' ')[0]}
                     containerStyle={{ height: 50 }}
                     hideChevron
                 />

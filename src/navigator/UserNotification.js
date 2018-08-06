@@ -4,6 +4,8 @@ import { List, ListItem, SearchBar, Header } from "react-native-elements";
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import PTRView from 'react-native-pull-to-refresh';
 
+import I18n from 'ex-react-native-i18n';
+
 import axios from 'axios';
 import {GetRequest} from '../helper/request_helper';
 
@@ -79,7 +81,7 @@ export default class UserNotification extends React.Component {
             outerContainerStyles={{ backgroundColor: 'black', height: StatusBar.currentHeight - 5 }}
             />
             <Header 
-                centerComponent={{ text: 'Thông Báo', style: { color: '#fff', fontSize: 16, fontWeight: 'bold' } }}
+                centerComponent={{ text: I18n.t('noti'), style: { color: '#fff', fontSize: 16, fontWeight: 'bold' } }}
                 outerContainerStyles={{ backgroundColor: '#5F5395', height: 50, marginTop: StatusBar.height }}
 
             />
