@@ -9,7 +9,7 @@ https://expo.io/@tannguyen16/tinhieu
 
 Install Expo on your phone (Android or iOS) and use its Scan QR code feature to demo the app on your devices.
 
-![alt text](https://raw.githubusercontent.com/tannguyen16/react-native-signal/master/src/images/1.jpg){:height="50%" width="50%"}
+![alt text](https://raw.githubusercontent.com/tannguyen16/react-native-signal/master/src/images/1.jpg = 200x200)
 ![alt text](https://raw.githubusercontent.com/tannguyen16/react-native-signal/master/src/images/2.jpg)
 ![alt text](https://raw.githubusercontent.com/tannguyen16/react-native-signal/master/src/images/3.jpg)
 ![alt text](https://raw.githubusercontent.com/tannguyen16/react-native-signal/master/src/images/4.jpg)
