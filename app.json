@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "Tín Hiệu",
-    "icon": "./src/images/logo2.png",
+    "name": "fSignal",
+    "icon": "./src/images/logo.png",
     "version": "1.0.0",
     "slug": "tinhieu",
     "sdkVersion": "27.0.0",
@@ -10,14 +10,14 @@
       "supportsTablet": true
     },
     "notification": {
-      "icon": "./src/images/logo2.png"
+      "icon": "./src/images/logo.png"
     },
     "loading": {
       "backgroundColor": "#FFFFFF",
-      "icon": "./src/images/logo2.png"
+      "icon": "./src/images/logo.png"
     },
     "splash": {
-      "image": "./src/images/logo2.png",
+      "image": "./src/images/logo.png",
       "backgroundColor": "#ffffff"
     },
     "android": {
